@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Greenhouse</title>
-    <meta name="description" content="group26">
+    <meta name="description" content="Greenhouse">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .center {
@@ -60,11 +60,11 @@
 <body class="center" onload="onload()" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
     <h1 class="center">Group 26 Wireless Camera Trap</h1>
     <div class=card style="border-color: #ffffff;">
-        <img class="picture" id="slideshow" src="/images/picture_1.jpg" style="max-width:25%;">
+        <img class="picture" id="slideshow" src="images/picture_1.jpg" style="max-width:100%;">
         <p> </p>
         <button class="left" id="prev">❮ Prev</button>
         <button class="right" id="next">❯ Next</button>
-        <button href="/images/picture_1.jpg" download="/images/picture_1.jpg" id="download">Download</button>
+        <button href="images/picture_1.jpg" download id="download">Download</button>
         <button id="take_photo">Take Photo</button>
     </div>
     <div class=card>
@@ -72,7 +72,7 @@
             STATUS
         </div>
         <div class="container">
-            <img class="picture" style="max-width:100%;" src="/picture_1.jpg">
+            <img class="picture" style="max-width:100%;" src="picture_1.jpg">
             <div class="top-left">
                 <p id="temp"> Temp: 0 ℃ </p>
                 <p id="RH"> RH: 0 % </p>
@@ -155,7 +155,7 @@
         next.addEventListener("click", function () {
             picture += 1;
             console.log("picture", picture);
-            document.getElementById("slideshow").src = "/images/picture_" + picture + ".jpg";
+            document.getElementById("slideshow").src = "/picture_" + picture + ".jpg";
         });
 
         var download = document.getElementById("download");
@@ -168,7 +168,7 @@
         prev.addEventListener("click", function () {
             picture -= 1;
             console.log("picture", picture);
-            document.getElementById("slideshow").src = "/images/picture_" + picture + ".jpg";;
+            document.getElementById("slideshow").src = "/picture/" + picture + ".jpg";;
         });
 
         var take_photo = document.getElementById("take_photo");
