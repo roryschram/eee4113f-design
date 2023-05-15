@@ -6,10 +6,15 @@
 #include <SD_MMC.h>
 #include <SPI.h>
 #include "esp32cam.h"
+#include "esp32cam/http/LiveFeed.h"
 
 
 Eloquent::Esp32cam::Cam cam;
+Eloquent::Esp32cam::Http::LiveFeed feed(cam, 80);
+
 uint32_t counter = 1;
+bool isMovement = false;
+int movementCounter = 0;
 
 // Set these to your desired credentials.
 const char *ssid = "group26";
@@ -19,10 +24,9 @@ WebServer server(80);
 
 // Handles what happens when a client trys to connect to a page that has not been found
 void handleNotFound() {
-  String message = "File Not Found\n\n";
+  String message = "Page not found!\n";
   server.send(404, "text/plain", message);
 }
-
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     Serial.printf("Listing directory: %s\n", dirname);
@@ -182,6 +186,11 @@ void testFileIO(fs::FS &fs, const char * path){
 void setup() {
   Serial.begin(115200);
   Serial.println();
+
+  // Setting up pin 13 as input
+  pinMode(GPIO_NUM_13, INPUT);
+
+
   Serial.println("Setting Up Access Point");
 
   if (!WiFi.softAP(ssid, password)) {
@@ -212,7 +221,7 @@ void setup() {
     
   // Initialize the filesystem
   // If something goes wrong, print an error message
-  while (!SD_MMC.begin() || SD_MMC.cardType() == CARD_NONE) {
+  while (!SD_MMC.begin("/sdcard",true) || SD_MMC.cardType() == CARD_NONE) {
     Serial.println("Cannot init SD Card");
     delay(1000);
   }
@@ -239,14 +248,14 @@ void setup() {
 
 void loop() {
   server.handleClient();
-  
-  if (!Serial.available()) {
-      return;
+
+  if ((digitalRead(GPIO_NUM_13) == HIGH)) {
+    isMovement = true;
+    movementCounter++;
   }
 
-  if (Serial.readStringUntil('\n') != "capture") {
-        return;
-  }
+  if (isMovement && (movementCounter >= 1000)) {
+
     if (!cam.capture()) {
         Serial.println(cam.getErrorMessage());
         return;
@@ -261,6 +270,9 @@ void loop() {
     else {
         Serial.println(cam.getErrorMessage());
     }
+    isMovement = false;
+    movementCounter = 0;
+  }
 }
 
 
@@ -278,9 +290,7 @@ void handleRoot() {
 }
 
 void handleDelete() {
-  deleteRecursive("/");
   String message = "Deleted all images!";
   server.send(200, "text/plain", message);
   listDir(SD_MMC, "/", 0);
-}
-
+  }
