@@ -204,8 +204,10 @@ void setup() {
   server.on("",handleRoot);
   server.on("/delete",handleDelete);
   server.onNotFound(handleNotFound);
-  server.begin();
 
+  server.onNotFound(handleRoot);
+
+  server.begin();
   Serial.println("Server started");
 
 
@@ -254,7 +256,7 @@ void loop() {
     movementCounter++;
   }
 
-  if (isMovement && (movementCounter >= 1000)) {
+  if (isMovement && (movementCounter >= 3000)) {
 
     if (!cam.capture()) {
         Serial.println(cam.getErrorMessage());
