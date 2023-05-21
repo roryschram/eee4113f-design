@@ -6,11 +6,9 @@
 #include <SD_MMC.h>
 #include <SPI.h>
 #include "esp32cam.h"
-#include "esp32cam/http/LiveFeed.h"
 
 
 Eloquent::Esp32cam::Cam cam;
-Eloquent::Esp32cam::Http::LiveFeed feed(cam, 80);
 
 uint32_t counter = 1;
 bool isMovement = false;
@@ -189,6 +187,8 @@ void setup() {
 
   // Setting up pin 13 as input
   pinMode(GPIO_NUM_13, INPUT);
+    // Setting up pin 13 as input
+  pinMode(GPIO_NUM_12, INPUT);
 
 
   Serial.println("Setting Up Access Point");
@@ -203,9 +203,8 @@ void setup() {
   server.on("/", handleRoot);
   server.on("",handleRoot);
   server.on("/delete",handleDelete);
+  server.on("/battery",handleBattery);
   server.onNotFound(handleNotFound);
-
-  server.onNotFound(handleRoot);
 
   server.begin();
   Serial.println("Server started");
@@ -243,20 +242,18 @@ void setup() {
   } else {
     Serial.println("UNKNOWN");
   }
-
-  Serial.println("Enter 'capture' in the Serial Monitor");
-
 }
 
 void loop() {
   server.handleClient();
 
-  if ((digitalRead(GPIO_NUM_13) == HIGH)) {
+  if ((digitalRead(GPIO_NUM_12) == HIGH)) {
     isMovement = true;
     movementCounter++;
   }
 
   if (isMovement && (movementCounter >= 3000)) {
+    Serial.println("Movement Detected!");
 
     if (!cam.capture()) {
         Serial.println(cam.getErrorMessage());
@@ -338,4 +335,74 @@ void handleDelete() {
   String message = "Deleted all images!";
   server.send(200, "text/plain", message);
   listDir(SD_MMC, "/", 0);
+  }
+
+String batteryHTML = "<!DOCTYPE html>"
+  "<head>"
+    "<meta charset='utf-8'>"
+    "<meta http-equiv='X-UA-Compatible' content='IE=edge'>"
+    "<title>Greenhouse</title>"
+    "<meta name='description' content='group26'>"
+    "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+    "<style>"
+        ".center {"
+            "margin: auto;"
+            "text-align: center;"
+        "}"
+        ".left {"
+           " float: left;"
+        "}"
+        ".right {"
+            "float: right;"
+        "}"
+        ".card {"
+            "border-style: solid;"
+            "border-width: 1px;"
+            "border-color: #F7DC6F;"
+            "padding: 5px;"
+           " margin: 20px;"
+        "}"
+       " .container {"
+            "position: relative;"
+        "}"
+       " .top-left {"
+            "position: absolute;"
+           " top: 8px;"
+           " left: 16px;"
+           " text-align: left;"
+        "}"
+        ".hide {"
+            "position: absolute;"
+            "opacity: 0;"
+       " }"
+        "input[type=checkbox]+label {"
+            "color: rgb(129, 129, 129);"
+            "font-style: italic;"
+            "padding: 5px;"
+        "}"
+        "input[type=checkbox]:checked+label {"
+           " color: #000000;"
+           " font-style: normal;"
+           " padding: 5px;"
+        "}"
+   " </style>"
+"</head>"
+"<body class='center' onload='onload()' style='font-family: Verdana, Geneva, Tahoma, sans-serif;'>"
+    "<h1 class='center'>Group 26 Wireless Camera Trap</h1>"
+    "<div class=card>"
+        "<div style='background-color:#F7DC6F;'>"
+            "Battery Status"
+        "</div>"
+            "<div>"
+                "<p>The battery percentage is: ";
+
+
+
+  void handleBattery() {
+    int battAnalogRead = analogRead(GPIO_NUM_12);
+    Serial.println("Not Enough ADC pins!");
+
+    String message = batteryHTML + battAnalogRead + "</p>\n</div>\n</div>\n</body>\n</html>";
+
+  server.send(200, "text/html", message);
   }

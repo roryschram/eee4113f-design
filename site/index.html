@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>group26</title>
+    <meta name="description" content="group26">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .center {
+            margin: auto;
+            text-align: center;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .card {
+            border-style: solid;
+            border-width: 1px;
+            border-color: #F7DC6F;
+            padding: 5px;
+            margin: 20px;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .top-left {
+            position: absolute;
+            top: 8px;
+            left: 16px;
+            text-align: left;
+        }
+
+        .hide {
+            position: absolute;
+            opacity: 0;
+        }
+
+        input[type=checkbox]+label {
+            color: rgb(129, 129, 129);
+            font-style: italic;
+            padding: 5px;
+        }
+
+        input[type=checkbox]:checked+label {
+            color: #000000;
+            font-style: normal;
+            padding: 5px;
+        }
+        img {
+        border: 1px solid #ddd; /* Gray border */
+        border-radius: 4px;  /* Rounded border */
+        padding: 5px; /* Some padding */
+        width: 150px; /* Set a small width */
+        }
+        /* Add a hover effect (blue shadow) */
+        img:hover {
+        box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+
+        div.gallery {
+  border: 1px solid #ccc;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.responsive {
+  padding: 0 6px;
+  float: left;
+  width: 24.99999%;
+}
+
+@media only screen and (max-width: 700px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .responsive {
+    width: 100%;
+  }
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+    </style>
+
+</head>
+
+<body class="center" onload="onload()" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+    <h1 style="background-color:skyblue;" class="center">Group 26 Wireless Camera Trap</h1>
+    <div class=card style="border-color: #ffffff;">
+
+        <div class="responsive">
+            <div class="gallery">
+                    <a target="_blank" href="/images/1.jpg" id="link1"><img src="/images/1.jpg" id="pane1"></a>
+                <div class="desc" id="label1">1</div>
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <a target="_blank" href="/images/2.jpg" id="link2"><img src="/images/2.jpg" id="pane2"></a>
+                <div class="desc" id="label2">2</div>
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <a target="_blank" href="/images/3.jpg" id="link3"><img src="/images/3.jpg" id="pane3"></a>
+                <div class="desc" id="label3">3</div>
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <a target="_blank" href="/images/4.jpg" id="link4"><img src="/images/4.jpg" id="pane4"></a>
+                <div class="desc" id="label4">4</div>
+            </div>
+        </div>
+        <p> </p>
+
+        <div class="responsive">
+            <div class="gallery">
+                <a target="_blank" href="/images/5.jpg" id="link5"><img src="/images/5.jpg" id="pane5"></a>
+                <div class="desc" id="label5">5</div>
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <a target="_blank" href="/images/6.jpg" id="link6"><img src="/images/6.jpg" id="pane6"></a>
+                <div class="desc" id="label6">6</div>
+            </div>
+        </div>
+
+
+        <div class="responsive">
+            <div class="gallery">
+                <a target="_blank" href="/images/7.jpg" id="link7"><img src="/images/7.jpg" id="pane7"></a>
+                <div class="desc" id="label7">7</div>
+            </div>
+        </div>
+
+
+        <div class="responsive">
+            <div class="gallery">
+                <a target="_blank" href="/images/8.jpg" id="link8"><img src="/images/8.jpg" id="pane8"></a>
+                <div class="desc" id="label8">8</div>
+            </div>
+        </div>
+        <p> </p>
+        <button class="left" id="prev">Prev</button>
+        <button class="right" id="next">Next</button>
+    </div>
+
+
+    <script>
+    
+        function onload() {
+            console.log("loaded");
+        }
+
+        var picture = 1;
+
+
+
+
+        var prev = document.getElementById("prev");
+        prev.addEventListener("click", function () {
+            picture -= 8;
+            console.log("picture", picture);
+
+            document.getElementById("pane1").src = "/images/" + picture + ".jpg";
+            document.getElementById("link1").href = "/images/" + picture + ".jpg";
+            document.getElementById("label1").textContent = picture;
+
+            document.getElementById("pane2").src = "/images/" + (picture+1) + ".jpg";
+            document.getElementById("link2").href = "/images/" + (picture+1) + ".jpg";
+            document.getElementById("label2").textContent = (picture+1);
+
+            document.getElementById("pane3").src = "/images/" + (picture+2) + ".jpg";
+            document.getElementById("link3").href = "/images/" + (picture+2) + ".jpg";
+            document.getElementById("label3").textContent = (picture+2);
+
+            document.getElementById("pane4").src = "/images/" + (picture+3) + ".jpg";
+            document.getElementById("link4").href = "/images/" + (picture+3) + ".jpg";
+            document.getElementById("label4").textContent = (picture+3);
+
+            document.getElementById("pane5").src = "/images/" + (picture+4) + ".jpg";
+            document.getElementById("link5").href = "/images/" + (picture+4) + ".jpg";
+            document.getElementById("label5").textContent = (picture+4);
+
+            document.getElementById("pane6").src = "/images/" + (picture+5) + ".jpg";
+            document.getElementById("link6").href = "/images/" + (picture+5) + ".jpg";
+            document.getElementById("label6").textContent = (picture+5);
+
+            document.getElementById("pane7").src = "/images/" + (picture+6) + ".jpg";
+            document.getElementById("link7").href = "/images/" + (picture+6) + ".jpg";
+            document.getElementById("label7").textContent = (picture+6);
+
+            document.getElementById("pane8").src = "/images/" + (picture+7) + ".jpg";
+            document.getElementById("link8").href = "/images/" + (picture+7) + ".jpg";
+            document.getElementById("label8").textContent = (picture+7);
+        });
+        var next = document.getElementById("next");
+        next.addEventListener("click", function () {
+            picture += 8;
+
+            document.getElementById("pane1").src = "/images/" + picture + ".jpg";
+            document.getElementById("link1").href = "/images/" + picture + ".jpg";
+            document.getElementById("label1").textContent = picture;
+
+            document.getElementById("pane2").src = "/images/" + (picture+1) + ".jpg";
+            document.getElementById("link2").href = "/images/" + (picture+1) + ".jpg";
+            document.getElementById("label2").textContent = (picture+1);
+
+            document.getElementById("pane3").src = "/images/" + (picture+2) + ".jpg";
+            document.getElementById("link3").href = "/images/" + (picture+2) + ".jpg";
+            document.getElementById("label3").textContent = (picture+2);
+
+            document.getElementById("pane4").src = "/images/" + (picture+3) + ".jpg";
+            document.getElementById("link4").href = "/images/" + (picture+3) + ".jpg";
+            document.getElementById("label4").textContent = (picture+3);
+
+            document.getElementById("pane5").src = "/images/" + (picture+4) + ".jpg";
+            document.getElementById("link5").href = "/images/" + (picture+4) + ".jpg";
+            document.getElementById("label5").textContent = (picture+4);
+
+            document.getElementById("pane6").src = "/images/" + (picture+5) + ".jpg";
+            document.getElementById("link6").href = "/images/" + (picture+5) + ".jpg";
+            document.getElementById("label6").textContent = (picture+5);
+
+            document.getElementById("pane7").src = "/images/" + (picture+6) + ".jpg";
+            document.getElementById("link7").href = "/images/" + (picture+6) + ".jpg";
+            document.getElementById("label7").textContent = (picture+6);
+
+            document.getElementById("pane8").src = "/images/" + (picture+7) + ".jpg";
+            document.getElementById("link8").href = "/images/" + (picture+7) + ".jpg";
+            document.getElementById("label8").textContent = (picture+7);
+        });
+    </script>
+</body>
+</html>
